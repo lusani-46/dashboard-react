@@ -1,35 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
-
 
 function Create() {
   const [questions, setQuestions] = useState([]);
-  const [questionText, setQuestionText] = useState('');
+  const [newQuestion, setNewQuestion] = useState('');
 
+  useEffect(() => {
+    const storedQuestions = JSON.parse(localStorage.getItem('questions')) || [];
+    setQuestions(storedQuestions);
+  }, []);
 
-  const handleChangeQuestionText = (e) => {
-    setQuestionText(e.target.value);
-  };
+  useEffect(() => {
+    localStorage.setItem('questions', JSON.stringify(questions));
+  }, [questions]);
 
-  const handleAddQuestion = () => {
-    if (questionText.trim() !== '') {
-      const newQuestion = { text: questionText };
-      setQuestions([...questions, newQuestion]);
-      setQuestionText('');
+  const handleAddQuestion = () => { // Fixed function name
+    if (newQuestion.trim() !== '') {
+      setQuestions([...questions, { text: newQuestion }]); // Create an object with 'text' property
+      setNewQuestion('');
     }
   };
 
-  const handleEditQuestion = (index) => {
-    const updatedText = window.prompt('Edit the question:', questions[index].text);
-    if (updatedText !== null) {
+  const handleEditQuestion = (index) => { // Fixed function name
+    const newText = prompt('Edit the question:', questions[index].text);
+    if (newText !== null) {
       const updatedQuestions = [...questions];
-      updatedQuestions[index].text = updatedText;
+      updatedQuestions[index] = { text: newText };
       setQuestions(updatedQuestions);
     }
   };
 
-  const handleDeleteQuestion = (index) => {
-    const updatedQuestions = questions.filter((_, i) => i !== index);
+  const handleDeleteQuestion = (index) => { // Fixed function name
+    const updatedQuestions = [...questions];
+    updatedQuestions.splice(index, 1);
     setQuestions(updatedQuestions);
   };
 
@@ -38,13 +41,14 @@ function Create() {
       <div className="question-form">
         <h2>Add a Question</h2>
         <input
-          type="text" 
+          type="text"
           placeholder="Enter your question"
-          value={questionText}
-          // onChange={(e) => setQuestionText(e.target.value)}
-          onChange={handleChangeQuestionText}
+          value={newQuestion}
+          onChange={(e) => setNewQuestion(e.target.value)}
+          disabled={false}
         />
-        <button className='add-button' onClick={handleAddQuestion}>Add</button>
+
+        <button className='add-button' onClick={handleAddQuestion}>Add</button> {/* Use handleAddQuestion */}
       </div>
 
       <div className="question-list">
@@ -53,10 +57,10 @@ function Create() {
           {questions.map((question, index) => (
             <li key={index}>
               {question.text}
-              <span className="edit-icon" onClick={() => handleEditQuestion(index)}>
+              <span className="edit-icon" onClick={() => handleEditQuestion(index)}> {/* Use handleEditQuestion */}
                 <AiOutlineEdit />
               </span>
-              <span className="delete-icon" onClick={() => handleDeleteQuestion(index)}>
+              <span className="delete-icon" onClick={() => handleDeleteQuestion(index)}> {/* Use handleDeleteQuestion */}
                 <AiOutlineDelete />
               </span>
             </li>

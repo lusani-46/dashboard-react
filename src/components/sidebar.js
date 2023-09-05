@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import logo from './images/pic.png' ; 
 
 function Sidebar() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(true);
@@ -14,23 +15,26 @@ function Sidebar() {
         <span className='icon close_icon' onClick={handleSidebarToggle}>X</span>
       </div>
 
+      <div className='logo'>
+        <img src={logo}alt="" />
+      </div>
+
       <ul className='sidebar-list'>
         <li className='sidebar-list-item'>
-        <Link to="/dashboard">
-             <div className='icon'/> Dashboard
-            </Link> 
+          <Link to="/dashboard">
+            <div className='icon'/> Dashboard
+          </Link>
         </li>
         <li className='sidebar-list-item'>
-        <Link to="/create">
+          <Link to="/create">
             <div className='icon'/> Create
-            </Link> 
+          </Link>
         </li>
         <li className='sidebar-list-item'>
-        <Link to="/questionnaire">
-            <div className='icon'/>Questionnaire
-            </Link> 
+          <Link to="/questionnaire">
+            <div className='icon'/> Questionnaire
+          </Link>
         </li>
-
       </ul>
     </aside>
   );

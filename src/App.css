@@ -110,6 +110,22 @@ body {
   z-index: 12 !important;
 }
 
+
+/* CSS for the logo container */
+.logo {
+  text-align: center;
+  padding: 20px; /* Adjust as needed */
+}
+
+/* CSS for the logo image (make it round) */
+.logo img {
+  max-width: 100%;
+  border-radius: 50%;
+  width: 150px; 
+  height: 150px; 
+}
+
+
 /* End Sidebar  */
 
 

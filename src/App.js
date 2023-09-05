@@ -1,25 +1,45 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
+import Sidebar from './components/sidebar';
+import Dashboard from './components/Dashboard';
+import Questionnaire from './components/Questionnaire';
+import Create from './components/create';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+  const [openSidebarToggle, setOpenSidebarToggle] = useState(true);
+  const [questions, setQuestions] = useState([]);
 
-export default App;
+  const handleSidebarToggle = () => {
+    setOpenSidebarToggle(!openSidebarToggle);
+  };
+
+  const addQuestion = (newQuestion) => {
+    setQuestions([...questions, newQuestion]);
+  };
+
+  return (
+    <Router>
+      <div className="grid-container">
+        <Sidebar
+          openSidebarToggle={openSidebarToggle}
+          OpenSidebar={handleSidebarToggle}
+        />
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/questionnaire"
+            element={<Questionnaire questions={questions} />}
+          />
+          <Route
+            path="/create"
+            element={<Create addQuestion={addQuestion} />}
+          />
+        </Routes>
+      </div>
+              </Router>
+        );
+      }
+      
+      export default App;
+      
